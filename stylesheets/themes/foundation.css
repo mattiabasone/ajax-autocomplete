@@ -1,0 +1,51 @@
+/* FOUNDATION AUTOCOMPLETE STYLING */
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+.foundation.autocomplete-wrapper{
+  width: 100%;
+  position: relative;
+}
+
+.foundation.autocomplete-wrapper.active .autocomplete-textfield + .autocomplete-dropdown{
+  display: block;
+}
+
+.foundation .autocomplete-textfield{
+  box-sizing: border-box;
+}
+
+.foundation .autocomplete-textfield + .autocomplete-dropdown{
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  position: absolute;
+  top: calc(100% - 3px);
+  left: 0px;
+  border: 1px solid #8a8a8a;
+  border-top: none;
+  display: none;
+}
+
+.foundation .autocomplete-textfield + .autocomplete-dropdown li{
+  padding: 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #fff;
+  color: #0a0a0a;
+  font-size: 14px;
+}
+
+.foundation .autocomplete-textfield + .autocomplete-dropdown li:hover{
+  background-color: #eee;
+}
+
+.foundation .autocomplete-textfield + .autocomplete-dropdown li.highlighted{
+  background-color: #eee;
+}

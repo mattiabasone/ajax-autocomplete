@@ -1,0 +1,50 @@
+/* MATERIALIZE AUTOCOMPLETE STYLING */
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+.materialize.autocomplete-wrapper{
+  width: 100%;
+  position: relative;
+}
+
+.materialize.autocomplete-wrapper.active .autocomplete-textfield + .autocomplete-dropdown{
+  display: block;
+}
+
+.materialize .autocomplete-textfield{
+  box-sizing: border-box;
+}
+
+.materialize .autocomplete-textfield + .autocomplete-dropdown{
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  position: absolute;
+  top: calc(100% - 14px);
+  left: 0px;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+  display: none;
+}
+
+.materialize .autocomplete-textfield + .autocomplete-dropdown li{
+  padding: 15px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #fff;
+  color: #0a0a0a;
+  font-size: 14px;
+}
+
+.materialize .autocomplete-textfield + .autocomplete-dropdown li:hover{
+  background-color: #eee;
+}
+
+.materialize .autocomplete-textfield + .autocomplete-dropdown li.highlighted{
+  background-color: #eee;
+}

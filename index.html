@@ -2,25 +2,153 @@
 <html>
 <head>
   <meta charset=utf-8/>
-  <title>Autocomplete.js</title>
-  <link rel=stylesheet href="theme/basic.css"/>
+  <title>Ajax-Autocomplete.js</title>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> -->
+  <link href="https://fonts.googleapis.com/css?family=Martel:400" rel="stylesheet">
+  <link rel=stylesheet href="stylesheets/index.css"/>
+  <link rel=stylesheet href="stylesheets/themes/custom.css"/>
+  <link rel=stylesheet href="stylesheets/themes/bootstrap.css"/>
+  <link rel=stylesheet href="stylesheets/themes/foundation.css"/>
+  <link rel=stylesheet href="stylesheets/themes/materialize.css"/>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.3/foundation.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.css"> -->
+
 </head>
 <body>
-  <input type="text" class="autocomplete" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js" type="text/javascript"></script>
-  <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3i1Xy08ztd88pd4CTQPRN9-C_dOtSsxs&libraries=places"></script>
-  <script src="js/ajax.autocomplete.js"></script>
-  <script>
-    $('.autocomplete').autocomplete({
-      data     : function(value){
-        var googleLocationAutocomplete = new google.maps.places.AutocompleteService();
-        var request = { input: value, types: ['(cities)'] };
-        googleLocationAutocomplete.getPlacePredictions(request, function(predictions){
-          data = predictions.map(function(prediction){ return prediction.description; });
-          this.setData(data);
-        }.bind(this));
-      }
-    });
-  </script>
-</body>
-</html>
+
+  <section class="intro">
+    <div class="title">Ajax Autocomplete</div>
+    <input type="search" class="autocomplete" placeholder="Search a city" />
+    <div class="check-me-out">
+      Check the code out at <a href="https://github.com/mtuck063/ajax-autocomplete">https://github.com/mtuck063/ajax-autocomplete</a>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="title">Why?</div>
+    <div class="content">Just cause.</div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="title">How it works?</div>
+
+    <div class="content">
+      Ajax autocomplete has two options, theme and data. Theme containing a string of the one you would like (bootstrap, foundation, materialize).
+      And data containing a function which will be callbacked when a alphanumerical button is pressed, you must supply an array of strings within
+      'setData', which will supply your dropdown list.
+    </div>
+
+    <div class="code">
+      $(<span class="string">'.ajax-autocomplete'</span>).autocomplete({ <br/>
+        &emsp;<span class="comment">// Themes: 'bootrstap', 'foundation' and 'materialize'</span> <br/>
+        &emsp;theme : <span class="string">'materialize'</span>, <br/>
+        &emsp;callback  : <span class="function">function</span>(){ <br/>
+          &emsp;&emsp;$.ajax({ <br/>
+            &emsp;&emsp;&emsp;... <br/>
+            &emsp;&emsp;&emsp;success: <span class="function">function</span>(data){ <br/>
+              &emsp;&emsp;&emsp;&emsp;... <br/>
+              &emsp;&emsp;&emsp;&emsp;this.setData(data); <br/>
+              &emsp;&emsp;&emsp;} <br/>
+              &emsp;&emsp;}) <br/>
+              &emsp;} <br/>
+            })
+          </div>
+        </section>
+
+        <section class="themes">
+          <div class="title">Themes</div>
+          <div class="sub-title">
+            <a href="#materialize" class="theme-trigger">Materialize</a> |
+            <a href="#bootstrap" class="theme-trigger">Bootstrap</a> |
+            <a href="#foundation" class="theme-trigger">Foundation</a>
+          </div>
+          <div class="theme-container">
+            <div id="bootstrap" class="container">
+              <input type="search" class="autocomplete-bootstrap" placeholder="Search a city"/>
+            </div>
+            <div id="foundation" class="container">
+              <input type="search" class="autocomplete-foundation" placeholder="Search a city"/>
+            </div>
+            <div id="materialize" class="container">
+              <div class="title"></div>
+              <input type="search" class="autocomplete-materialize" placeholder="Search a city"/>
+            </div>
+          </div>
+        </section>
+
+        <section class="thanks">
+          <div class="content">Best, <br/> <a href="https://github.com/mtuck063">mtuck063</a></div>
+        </section>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js" type="text/javascript"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js" type="text/javascript"></script> -->
+        <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3i1Xy08ztd88pd4CTQPRN9-C_dOtSsxs&libraries=places"></script>
+        <script src="js/ajax.autocomplete.js"></script>
+        <script>
+        $('.autocomplete').autocomplete({
+          theme : 'custom',
+          callback  : function(value){
+            var googleLocationAutocomplete = new google.maps.places.AutocompleteService();
+            var request = { input: value, types: ['(cities)'] };
+            googleLocationAutocomplete.getPlacePredictions(request, function(predictions){
+              var data = predictions ? predictions.map(function(prediction){ return prediction.description; }) : [];
+              this.setData(data);
+            }.bind(this));
+          }
+        });
+
+        $('.autocomplete-bootstrap').autocomplete({
+          theme : 'bootstrap',
+          callback : function(value){
+            var googleLocationAutocomplete = new google.maps.places.AutocompleteService();
+            var request = { input: value, types: ['(cities)'] };
+            googleLocationAutocomplete.getPlacePredictions(request, function(predictions){
+              var data = predictions ? predictions.map(function(prediction){ return prediction.description; }) : [];
+              this.setData(data);
+            }.bind(this));
+          }
+        });
+
+        $('.autocomplete-foundation').autocomplete({
+          theme : 'foundation',
+          callback : function(value){
+            var googleLocationAutocomplete = new google.maps.places.AutocompleteService();
+            var request = { input: value, types: ['(cities)'] };
+            googleLocationAutocomplete.getPlacePredictions(request, function(predictions){
+              var data = predictions ? predictions.map(function(prediction){ return prediction.description; }) : [];
+              this.setData(data);
+            }.bind(this));
+          }
+        });
+
+        $('.autocomplete-materialize').autocomplete({
+          theme : 'materialize',
+          callback : function(value){
+            var googleLocationAutocomplete = new google.maps.places.AutocompleteService();
+            var request = { input: value, types: ['(cities)'] };
+            googleLocationAutocomplete.getPlacePredictions(request, function(predictions){
+              var data = predictions ? predictions.map(function(prediction){ return prediction.description; }) : [];
+              this.setData(data);
+            }.bind(this));
+          }
+        });
+
+        (function(){
+
+          $('.theme-trigger').click(function(e){
+            e.preventDefault();
+            var $this = $(this);
+            $this.addClass('active');
+            $this.siblings().removeClass('active');
+            var themeId = $this.attr('href');
+            $(themeId).show();
+            $(themeId).siblings().hide();
+          });
+
+          $('.theme-trigger').first().trigger('click');
+
+        })()
+        </script>
+      </body>
+      </html>

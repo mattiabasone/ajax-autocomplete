@@ -1,9 +1,11 @@
 (function($) {
-  "use strict";
+  'use strict';
 
   function Autocomplete(options){
     options = $.extend({
-      data      : null
+      callback  : null,
+      data      : [],
+      theme     : ''
     }, options);
 
     $(this).each(function(){
@@ -42,45 +44,45 @@
         if(e.which === 40){
           if($autocomplete.highlighted.length === 0){
             $autocomplete.highlighted = $autocomplete.dropdown.children().first();
-            $autocomplete.highlighted.toggleClass("highlighted");
+            $autocomplete.highlighted.toggleClass('highlighted');
             return;
           }
 
-          $autocomplete.highlighted.toggleClass("highlighted");
-          $autocomplete.highlighted = $autocomplete.highlighted.next().toggleClass("highlighted");
+          $autocomplete.highlighted.toggleClass('highlighted');
+          $autocomplete.highlighted = $autocomplete.highlighted.next().toggleClass('highlighted');
         }
 
         // ARROW UP
         if(e.which === 38){
           if($autocomplete.highlighted.length === 0){
             $autocomplete.highlighted = $autocomplete.dropdown.children().last();
-            $autocomplete.highlighted.toggleClass("highlighted");
+            $autocomplete.highlighted.toggleClass('highlighted');
             return;
           }
 
-          $autocomplete.highlighted.toggleClass("highlighted");
-          $autocomplete.highlighted = $autocomplete.highlighted.prev().toggleClass("highlighted");
+          $autocomplete.highlighted.toggleClass('highlighted');
+          $autocomplete.highlighted = $autocomplete.highlighted.prev().toggleClass('highlighted');
         }
       }
 
       $autocomplete.on({
         'keyup focus click' : function(e){
-          if([9,13,27,38,40].indexOf(e.which) !== -1 || $autocomplete.val() === "") return;
+          if([9,13,27,38,40].indexOf(e.which) !== -1 || $autocomplete.val() === '') return;
           var autocompleteValue = $autocomplete.val();
 
-          if(typeof $autocomplete.options.data === "function"){
-            $autocomplete.options.data.call($autocomplete, autocompleteValue);
+          if(typeof $autocomplete.options.callback === 'function'){
+            $autocomplete.options.callback.call($autocomplete, autocompleteValue);
           }
         },
         'open' : function(){
-          $autocomplete.wrapper.toggleClass('active');
+          $autocomplete.wrapper.addClass('active');
           $autocomplete.active = true;
           $(document).on('click.close-autocomplete', function(e){
             if(e.target !== $autocomplete[0] && e.target !== $autocomplete.dropdown[0]) $autocomplete.trigger('close');
           });
         },
         'close' : function(){
-          $autocomplete.wrapper.toggleClass('active');
+          $autocomplete.wrapper.removeClass('active');
           $autocomplete.active = false;
           $autocomplete.dropdown.empty();
           $(document).off('click.close-autocomplete');
@@ -92,13 +94,14 @@
 
           $autocomplete.wrap('<div class="autocomplete-wrapper">');
           $autocomplete.wrapper = $autocomplete.parent();
+          $autocomplete.wrapper.addClass($autocomplete.options.theme);
           $autocomplete.addClass('autocomplete-textfield');
           $autocomplete.wrapper.append('<ul class="autocomplete-dropdown">');
           $autocomplete.dropdown = $autocomplete.wrapper.find('.autocomplete-dropdown');
         },
         'populate:dropdown' : function(){
-          var dropdownOptions = "";
-          $.each($autocomplete.options.results, function(){
+          var dropdownOptions = '';
+          $.each($autocomplete.options.data, function(){
             dropdownOptions += '<li>'+ this +'</li>';
           });
           $autocomplete.dropdown
@@ -120,12 +123,8 @@
         $autocomplete[0].dispatchEvent(event);
       }
 
-      $autocomplete.parseData = function(){
-
-      }
-
       $autocomplete.setData = function(data){
-        $autocomplete.options.results = data;
+        $autocomplete.options.data = data;
         $autocomplete.trigger('populate:dropdown');
         if(!$autocomplete.active) $autocomplete.trigger('open');
       }
